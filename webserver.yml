@@ -1,0 +1,16 @@
+- hosts: webserver
+  tasks:
+   - name: "Installing Apache Webserver"
+     package:
+      name: "httpd"
+   - name: "Installing PHP software"
+     package:
+      name: "php"
+   - name: "Copying the webpage to webserver"
+     copy:
+      dest: "/var/www/html/"
+      src: "/home/ec2-user/haproxy.php"
+   - name: "Starting webserver service"
+     service:
+      name: "httpd"
+      state: started     

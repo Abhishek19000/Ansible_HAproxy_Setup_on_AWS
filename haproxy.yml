@@ -1,0 +1,24 @@
+- hosts: 127.0.0.1
+  vars:
+   exposed_port: 8082
+  tasks:
+   - name: "Installing the HAproxy Software"
+     package:
+      name: "haproxy"
+   - name: "Configuring the HAproxy configuration file"
+     template:
+      src: "/home/ec2-user/haproxy.cfg"
+      dest: "/etc/haproxy/haproxy.cfg"
+     register: config
+   - name: "Starting the HAproxy Services"
+     service:
+      name: "haproxy"
+      state: started
+      enabled: yes
+     when: config.changed==false
+   - name: "Restaring the HAproxy Services"
+     service:
+      name: "haproxy"
+      state: restarted
+      enabled: yes
+     when: config.changed == true      
